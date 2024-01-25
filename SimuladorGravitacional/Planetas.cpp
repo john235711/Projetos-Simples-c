@@ -1,5 +1,4 @@
 //projeto que simula a atracao gravitacional de planetas no terminal
-//posso colocar bordas no programa e colocar colisoes dos planetas
 #include <stdio.h>
 #include <windows.h>
 #include <conio.h>
@@ -70,11 +69,11 @@ float distancia(float x1, float y1, float x2, float y2){
 void update_velocity(PLANETA planetas[], int size){
 	float *coord_e_massa_do_centro_massa = calcular_centro_de_massa(planetas, size);
 	float xc, yc;
-	float cos, sin, dx, dy; // dx e dy sao a distancia em x e y da particula em relacao ao centro de massa
+	float cos, sin, dx, dy; 
 	float hipotenuza;
 	float aceleracao;
 	
-	// modo de cauculo levando em conta so centro de massa do sistema
+	// modo de cauculo levando em conta so centro de massa do sistema o que nao e muito bom
 	/* for (int i = 0; i < size; i++){
 		xc = coord_e_massa_do_centro_massa[0];
 		yc = coord_e_massa_do_centro_massa[1];
@@ -92,7 +91,7 @@ void update_velocity(PLANETA planetas[], int size){
 	}*/
 	
 	
-	//modo de calculo onde calculo cada forca de um planeta
+	//modo de calculo onde calculo cada forca de um planeta  e a melhor forma para simular o efeito
 	for (int i = 0; i < size; i++){
 		for (int j = 0; j < size; j++){
 			if (i!=j){
@@ -100,7 +99,7 @@ void update_velocity(PLANETA planetas[], int size){
 				dx = planetas[j].x - planetas[i].x;
 				dy = planetas[j].y - planetas[i].y;
 				
-				aceleracao = planetas[j].massa*G/pow(hipotenuza, 2);
+				aceleracao = planetas[j].massa*G/pow(hipotenuza, 2); 
 				
 				cos = dx/hipotenuza;
 				sin = dy/hipotenuza;
@@ -126,6 +125,7 @@ void editar(PLANETA planetas[], int size){
 		putchar(219);
 		
 		tecla = getch();
+		
 		gotoxy(x, y);
 		putchar(' ');
 		switch(tolower(tecla)){
@@ -159,8 +159,6 @@ void editar(PLANETA planetas[], int size){
 				planetas[planetas_ja_criados] = planeta;
 				planetas_ja_criados++;
 				system("cls");
-				gotoxy(x, y);
-				putchar('*'); // deixo aqui o local do planeta que ele escolheu
 
 				if (planetas_ja_criados == size){
 					return;
